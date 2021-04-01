@@ -24,6 +24,9 @@ export default {
 
     deleteReservation: (car) => {
         return http.put('reservation/' + car.reservation.car_id, car);
-    }
+    },
 
+    rng: () => {
+        return http.get('srand/fillCarDatabase');
+    }
 }

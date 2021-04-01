@@ -3,6 +3,18 @@
     <nav>
       <div class="nav-wrapper blue darken-1">
         <a href="#" class="brand-logo center">Adicionar Usuário</a>
+        <button
+          class="waves-effect waves-light btn-small"
+          v-on:click="randomUsers()"
+        >
+          Gerar 10 usuários aleatórios
+        </button>
+        <button
+          class="waves-effect waves-light btn-small"
+          v-on:click="randomCars()"
+        >
+          Gerar 10 carros aleatórios
+        </button>
       </div>
     </nav>
 
@@ -111,7 +123,7 @@
         <input type="number" placeholder="ID do Carro" v-model="car.id" />
         <label>ID do Usuário</label>
         <input type="number" placeholder="ID usuário" v-model="car.user_id" />
-        <span>Para editar você precisa deletar a reserva primeiro.</span><br>
+        <span>Para editar você precisa deletar a reserva primeiro.</span><br />
         <button class="waves-effect waves-light btn-small">
           Salvar<i class="material-icons left">save</i>
         </button>
@@ -184,6 +196,7 @@ export default {
   },
 
   methods: {
+    //Atualiza a tabela buscando os dados no banco
     index() {
       Users.index().then((response) => {
         this.users = response.data;
@@ -194,6 +207,7 @@ export default {
       });
     },
 
+    //Salva ou edita um user baseado no id sendo null ou não
     store() {
       let user;
       if (!this.user.id) {
@@ -229,6 +243,7 @@ export default {
       }
     },
 
+    //Salva ou edita um carro baseado no id sendo null ou não
     storeCar() {
       let car;
       if (!this.car.id) {
@@ -278,20 +293,30 @@ export default {
       }
     },
 
+    //Para atualizar o usuário e/ou carro, basta chamar o evento e clicar no botão para salvar
+    //como se fosse para criar um elemento novo no banco, porém, desta vez, existe um id do elemento
+    //logo o programa irá atualizar o elemento já existente.
+    //Sem id = objeto novo
+    //Com id = apenas edita um existente
+
+    //Atualiza a reserva
     storeReservation(car) {
       if (this.car.user_id == -1) this.car.user_id = null;
 
       this.car = car;
     },
 
+    //Atualiza o user
     update(user) {
       this.user = user;
     },
 
+    //Atualiza um carro
     updateCar(car) {
       this.car = car;
     },
 
+    //Remove um usuário
     remove(user) {
       this.user = user;
 
@@ -311,6 +336,7 @@ export default {
       });
     },
 
+    //Remove um carro
     removeCar(car) {
       this.car = car;
 
@@ -333,6 +359,7 @@ export default {
       });
     },
 
+    //Retira uma reserva da tabela alterando o id do usuário para null
     removeReservation(car) {
       this.car = car;
 
@@ -345,6 +372,20 @@ export default {
 
       Cars.deleteReservation(re).then((response) => {
         alert(response.data);
+        this.index();
+      });
+    },
+
+    //Gera Usuários aleatórios
+    randomUsers() {
+      Users.rng().then(() => {
+        this.index();
+      });
+    },
+
+    //Gera Carros aleatórios
+    randomCars() {
+      Cars.rng().then(() => {
         this.index();
       });
     },

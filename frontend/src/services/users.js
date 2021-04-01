@@ -16,6 +16,9 @@ export default {
 
     delete: (user) => {
         return http.delete('user/' + user.user.id, user);
-    }
+    },
 
+    rng: () => {
+        return http.get('srand/fillUserDatabase');
+    }
 }
