@@ -19,7 +19,7 @@
 php artisan migrate
 ```
 
-### Roda o servidor
+### Rodar o servidor
 ```
 php artisan serve
 ```
